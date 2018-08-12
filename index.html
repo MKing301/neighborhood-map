@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  	<!-- Required meta tags -->
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	    <!-- CSS Stylesheet -->
+	    <link rel= "stylesheet" href= "css/style.css">
+	
+	    <!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  		<title>Neighborhood Map - STL</title>
+	</head>
+  	<body>
+  		<div class="container">
+  			<div id="map">
+	    	</div>  <!-- end map div -->
+    	</div>  <!-- end container div -->
+	    <script>
+	      var map;
+	
+	      // Create a new blank array for all the listing markers.
+	      var markers = [];
+	
+	      function initMap() {
+	        // Constructor creates a new map - only center and zoom are required.
+	        map = new google.maps.Map(document.getElementById('map'), {
+	          center: {lat: 38.63268284, lng: -90.1869568},
+	          zoom: 13
+	        });
+	
+	        // These are the real estate listings that will be shown to the user.
+	        // Normally we'd have these in a database instead.
+	        var locations = [
+	          {title: 'Saint Louis Zoo', location: {lat: 38.6385721, lng: -90.2938032}},
+	          {title: 'The Gateway Arch', location: {lat: 38.624691, lng: -90.186965}},
+	          {title: 'The Delmar Loop', location: {lat: 38.6560226, lng: -90.3075077}},
+	          {title: 'Saint Louis Art Museum', location: {lat: 38.6390952, lng: -90.2971418}},
+	          {title: 'Missouri History Museum', location: {lat: 38.6452478, lng: -90.287927}},
+	          {title: 'Missouri Botanical Garden', location: {lat: 38.6161054, lng: -90.260256}},
+	          {title: 'Ted Drewes Frozen Custard', location: {lat: 38.589412, lng: -90.307809}}
+	        ];
+	
+	        var largeInfowindow = new google.maps.InfoWindow();
+	        var bounds = new google.maps.LatLngBounds();
+	
+	        // The following group uses the location array to create an array of markers on initialize.
+	        for (var i = 0; i < locations.length; i++) {
+	          // Get the position from the location array.
+	          var position = locations[i].location;
+	          var title = locations[i].title;
+	          // Create a marker per location, and put into markers array.
+	          var marker = new google.maps.Marker({
+	            map: map,
+	            position: position,
+	            title: title,
+	            animation: google.maps.Animation.DROP,
+	            id: i
+	          });
+	          // Push the marker to our array of markers.
+	          markers.push(marker);
+	          // Create an onclick event to open an infowindow at each marker.
+	          marker.addListener('click', function() {
+	            populateInfoWindow(this, largeInfowindow);
+	          });
+	          bounds.extend(markers[i].position);
+	        }
+	        // Extend the boundaries of the map for each marker
+	        map.fitBounds(bounds);
+	      }
+	
+	      // This function populates the infowindow when the marker is clicked. We'll only allow
+	      // one infowindow which will open at the marker that is clicked, and populate based
+	      // on that markers position.
+	      function populateInfoWindow(marker, infowindow) {
+	        // Check to make sure the infowindow is not already opened on this marker.
+	        if (infowindow.marker != marker) {
+	          infowindow.marker = marker;
+	          infowindow.setContent('<div>' + marker.title + '</div>');
+	          infowindow.open(map, marker);
+	          // Make sure the marker property is cleared if the infowindow is closed.
+	          infowindow.addListener('closeclick',function(){
+	            infowindow.setMarker = null;
+	          });
+	        }
+	      }
+	    </script>
+	
+	    <script async defer
+	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD68YPsRiOfibODAVylQM4BaKVBdRDb1Po&v=3&callback=initMap">
+	    </script>
+  </body>
+</html>

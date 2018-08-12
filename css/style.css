@@ -14,6 +14,13 @@ body {
 	position: relative;
 }
 
+.content-nav-bar {
+	background: #E0D9D8;
+	left: 0%;
+    position: absolute;
+    right: 0px;
+}
+
 #map {
         bottom:0px;
         height: 90%;

@@ -79,6 +79,8 @@
 	            position: position,
 	            title: title,
 	            animation: google.maps.Animation.DROP,
+	            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+	            // source:  https://sites.google.com/site/gmapsdevelopment/
 	            id: i
 	          });
 	          // Push the marker to our array of markers.
@@ -87,6 +89,18 @@
 	          marker.addListener('click', function() {
 	            populateInfoWindow(this, largeInfowindow);
 	          });
+	          
+	       	// Two event listeners - one for mouseover, one for mouseout,
+	          // to change the colors back and forth.
+	          marker.addListener('mouseover', function() {
+	            this.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+	            //source:  https://sites.google.com/site/gmapsdevelopment/
+	          });
+	          marker.addListener('mouseout', function() {
+	            this.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+	            // source:  https://sites.google.com/site/gmapsdevelopment/
+	          });
+	          
 	          bounds.extend(markers[i].position);
 	        }
 	        // Extend the boundaries of the map for each marker

@@ -21,6 +21,14 @@ body {
     right: 0px;
 }
 
+.content-nav-bar.active {
+	background: #E0D9D8;
+	left: 0%;
+/* 	bottom: 90%; */
+	position: absolute;
+    right: 0px;
+}
+
 #map {
         bottom:0px;
         height: 90%;
@@ -28,7 +36,16 @@ body {
         position: absolute;
         right: 0px;
       }
-      
+
+#map.active {
+		background: #265281;
+        bottom:0px;
+        height: 90%;
+        left: 0%;
+        position: absolute;
+        right: 0px;
+      }
+
 .list-box {
         background: #E0D9D8;
         border: 1px solid #999;

@@ -11,8 +11,7 @@
 	    <!-- Bootstrap CSS -->
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   		
-  		<script type="text/javascript"src="js/lib/jquery.min.js"></script>
-    	<script type="text/javascript"src="js/app.js"></script>
+  		
   		
   		<title>Neighborhood Map - STL</title>
 	</head>
@@ -25,11 +24,12 @@
   				<div class="list-box-content">
   					<form class="form-group row">
 						<div class="form-group mx-sm-3 mb-2">
-					    	<label for="filter-field" class="sr-only">Filter by</label>
-					    	<input type="text" class="form-control-sm" id="inputfilter" placeholder="Filter by ...">
+					    	<input type="text" class="form-control" id="filterInput" data-bind="value: Query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Filter by ...">
 					  	</div>
-					  	<button type="submit" class="btn btn-primary btn-sm">Filter</button>
 					</form>
+					<ul data-bind="foreach: searchResults">
+				      <li data-bind="text: title"></li>
+				    </ul>
 				</div>  <!-- end list-box-content div -->
   			</div> <!-- end list-box div -->
   			<div class="page-content">
@@ -128,6 +128,10 @@
 	        }
 	      }
 	    </script>
+	    
+	    <script type="text/javascript"src="js/lib/jquery.min.js"></script>
+  		<script type="text/javascript"src="js/lib/knockout-3.2.0.js"></script>
+    	<script type="text/javascript"src="js/app.js"></script>
 	
 	    <script async defer
 	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD68YPsRiOfibODAVylQM4BaKVBdRDb1Po&v=3&callback=initMap">

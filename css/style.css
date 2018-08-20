@@ -10,36 +10,37 @@ body {
 	display: flex;
 	width: 100%;
 	height: 100%;
-	align-items: stretch;
 	position: relative;
 }
 
 .content-nav-bar {
 	background: #E0D9D8;
-	left: 31%;
-    position: absolute;
+	top: 0px;
+	left: 27%;
+ 	bottom: 90%;
+	position: absolute;
     right: 0px;
 }
 
 .content-nav-bar.active {
 	background: #E0D9D8;
+	top: 0px;
 	left: 0%;
-/* 	bottom: 90%; */
+ 	bottom: 90%;
 	position: absolute;
     right: 0px;
 }
 
 #map {
-        bottom:0px;
+        bottom: 0px;
         height: 90%;
-        left: 31%;
+        left: 27%;
         position: absolute;
         right: 0px;
       }
 
 #map.active {
-		background: #265281;
-        bottom:0px;
+		bottom: 0px;
         height: 90%;
         left: 0%;
         position: absolute;
@@ -54,7 +55,21 @@ body {
         line-height: 35px;
         padding: 10px 10px 30px 10px;
         text-align: left;
-        width: 30%;
+        width: 27%;
         text-align: center;
       }
       
+#filterInput {
+/* 	image source:  https://www.freeiconspng.com/img/9982 */
+	background-image: url('search-icon-png-18.png'); /* Add a search icon to input */
+    background-position: 10px 12px; /* Position the search icon */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    padding: 8px 12px 8px 40px; /* Add some padding */
+}
+
+li {
+	list-style-type: square;
+	color: #0C0BF1;
+	font-size:18px;
+	text-align: left;
+}

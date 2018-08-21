@@ -24,7 +24,11 @@
   				<div class="list-box-content">
   					<form class="form-group row">
 						<div class="form-group mx-sm-3 mb-2">
-					    	<input type="text" class="form-control" id="filterInput" data-bind="value: Query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Filter by ...">
+					    	<input type="text" 
+					    		class="form-control" 
+					    		data-bind="value: Query, valueUpdate: 'keyup'" 
+					    		autocomplete="off" 
+					    		placeholder="Filter list to ...">
 					  	</div>
 					</form>
 					<ul data-bind="foreach: searchResults">
@@ -36,7 +40,11 @@
   				<div class="content-nav-bar">
 	  				<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
 			        	<div class="container-fluid">
-			        		<input class="toggle-button" type="image" src="images/_ionicons_svg_md-menu.svg" width="30" height="30"/>
+			        		<input class="toggle-button" 
+			        			type="image" 
+			        			src="images/_ionicons_svg_md-menu.svg" 
+			        			width="30" 
+			        			height="30"/>
 			            	<h3>St Louis Area</h3>
 		        		</div>  <!-- end container-fluid div -->
 		    		</nav>
@@ -61,13 +69,13 @@
 	        // These are the list of places in St Louis, MO that will be shown to the user.
 
 	        var locations = [
-	          {title: 'Saint Louis Zoo', location: {lat: 38.6385721, lng: -90.2938032}},
-	          {title: 'The Gateway Arch', location: {lat: 38.624691, lng: -90.186965}},
-	          {title: 'The Delmar Loop', location: {lat: 38.6560226, lng: -90.3075077}},
-	          {title: 'Saint Louis Art Museum', location: {lat: 38.6390952, lng: -90.2971418}},
-	          {title: 'Missouri History Museum', location: {lat: 38.6452478, lng: -90.287927}},
-	          {title: 'Missouri Botanical Garden', location: {lat: 38.6161054, lng: -90.260256}},
-	          {title: 'Ted Drewes Frozen Custard', location: {lat: 38.589412, lng: -90.307809}}
+	          {title: 'Saint Louis Zoo', phone: '(314) 781-0900', location: {lat: 38.6385721, lng: -90.2938032}},
+	          {title: 'The Gateway Arch', phone: '(877) 982-1410', location: {lat: 38.624691, lng: -90.186965}},
+	          {title: 'Delmar Loop', phone: '(314) 727-8000', location: {lat: 38.6560226, lng: -90.3075077}},
+	          {title: 'Saint Louis Art Museum', phone: '(314) 721-0072', location: {lat: 38.6390952, lng: -90.2971418}},
+	          {title: 'Missouri History Museum', phone: '(314) 746-4599', location: {lat: 38.6452478, lng: -90.287927}},
+	          {title: 'Missouri Botanical Garden', phone: '(314) 577-5100', location: {lat: 38.6161054, lng: -90.260256}},
+	          {title: 'Ted Drewes Frozen Custard', phone: '(314) 481-2652', location: {lat: 38.589412, lng: -90.307809}}
 	        ];
 	
 	        var largeInfowindow = new google.maps.InfoWindow();
@@ -78,11 +86,13 @@
 	          // Get the position from the location array.
 	          var position = locations[i].location;
 	          var title = locations[i].title;
+	          var phone = locations[i].phone;
 	          // Create a marker per location, and put into markers array.
 	          var marker = new google.maps.Marker({
 	            map: map,
 	            position: position,
 	            title: title,
+	            phone: phone,
 	            animation: google.maps.Animation.DROP,
 	            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
 	            // source:  https://sites.google.com/site/gmapsdevelopment/
@@ -119,7 +129,43 @@
 	        // Check to make sure the infowindow is not already opened on this marker.
 	        if (infowindow.marker != marker) {
 	          infowindow.marker = marker;
-	          infowindow.setContent('<div>' + marker.title + '</div>');
+	          
+	          var $wikiElem = $('#wikipedia-links');
+	          $wikiElem.text("");
+	          inputStr = marker.title;
+	          
+	       // load wikipedia data
+			    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+inputStr+'&format=json&callback=wikiCallback';
+			    var wikiRequestTimeout = setTimeout(function(){
+			        $wikiElem.text("failed to get wikipedia resources");
+			    }, 8000);
+		
+			    $.ajax({
+			        url: wikiUrl,
+			        dataType: "jsonp",
+			        jsonp: "callback",
+			        success: function( response ) {
+			        	
+			        	/* Obtain main wikipedia link  from ajax response 
+			        	and create a link to display in info window */
+			        	var linkDiv = document.getElementById("wikipedia-links")
+			        	var aTag = document.createElement('a');
+			        	aTag.setAttribute('href', response[3][0]);
+			        	aTag.innerHTML = response[3][0];
+			        	linkDiv.appendChild(aTag);
+			        	
+			        	// Clear timeout for request
+			        	clearTimeout(wikiRequestTimeout);
+			        }
+			    })
+	          
+	          infowindow.setContent(
+	        		  '<div><h5>' + marker.title + '<h5></div>' + 
+	        		  '<div>' + marker.phone + '</div>' +
+	        		  '<div><h6>Wiki Link<h6></div>' +
+	        		  '<div id="wikipedia-links"></div>'
+	        		  
+	        		  );
 	          infowindow.open(map, marker);
 	          // Make sure the marker property is cleared if the infowindow is closed.
 	          infowindow.addListener('closeclick',function(){

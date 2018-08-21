@@ -16,7 +16,7 @@ body {
 .content-nav-bar {
 	background: #E0D9D8;
 	top: 0px;
-	left: 27%;
+	left: 30%;
  	bottom: 90%;
 	position: absolute;
     right: 0px;
@@ -34,7 +34,7 @@ body {
 #map {
         bottom: 0px;
         height: 90%;
-        left: 27%;
+        left: 30%;
         position: absolute;
         right: 0px;
       }
@@ -55,7 +55,7 @@ body {
         line-height: 35px;
         padding: 10px 10px 30px 10px;
         text-align: left;
-        width: 27%;
+        width: 30%;
         text-align: center;
       }
       

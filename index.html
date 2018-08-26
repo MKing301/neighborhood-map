@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 	  	<!-- Required meta tags -->
 	    <meta charset="utf-8">
@@ -11,174 +11,45 @@
 	    <!-- Bootstrap CSS -->
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   		
-  		
-  		
-  		<title>Neighborhood Map - STL</title>
+  		<title>Map</title>
 	</head>
   	<body>
-  		<div class="container">
-  			<div class="list-box">
-  				<div class="list-box-header">
+		<div class="container">
+			<div class="list-box">
+				<div class="list-box-header">
   					<h5>List of Places to Visit</h5>
   				</div>  <!-- end list-box-header div -->
-  				<div class="list-box-content">
-  					<form class="form-group row">
-						<div class="form-group mx-sm-3 mb-2">
-					    	<input type="text" 
-					    		class="form-control" 
-					    		id="filterInput"
-					    		data-bind="value: Query, valueUpdate: 'keyup'" 
-					    		autocomplete="off" 
-					    		placeholder="Filter list to ...">
-					  	</div>
-					</form>
-					<ul data-bind="foreach: searchResults">
-				      <li data-bind="text: title"></li>
-				    </ul>
-				</div>  <!-- end list-box-content div -->
-  			</div> <!-- end list-box div -->
-  			<div class="page-content">
+		    	<input type="text" 
+					   class="form-control" 
+					   id="filterInput"
+					   placeholder="Filter List to ..." 
+					   data-bind="textInput: filter" />
+		    	<ul id="menu" data-bind="foreach: filteredItems">
+		      		<li data-bind="text: title, click: clickFromList"></li>
+		    	</ul>
+		  	</div> <!-- end list-box div -->
+		  	<div class="page-content">
   				<div class="content-nav-bar">
 	  				<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
 			        	<div class="container-fluid">
 			        		<input class="toggle-button" 
 			        			type="image" 
 			        			src="images/_ionicons_svg_md-menu.svg" 
+			        			alt="hamburger icon"
 			        			width="30" 
 			        			height="30"/>
 			            	<h3>St Louis Area</h3>
 		        		</div>  <!-- end container-fluid div -->
 		    		</nav>
 	    		</div>  <!-- end content-nav-bar div -->
-	    		<div id="map">
-	    		</div>  <!-- end map div -->
-    		</div>  <!-- end of page-content dive -->
-    	</div>  <!-- end container div -->
-	    <script>
-	      var map;
-	
-	      // Create a new blank array for all the listing markers.
-	      var markers = [];
-	
-	      function initMap() {
-	        // Constructor creates a new map - only center and zoom are required.
-	        map = new google.maps.Map(document.getElementById('map'), {
-	          center: {lat: 38.63268284, lng: -90.1869568},
-	          zoom: 13
-	        });
-	
-	        // These are the list of places in St Louis, MO that will be shown to the user.
-
-	        var locations = [
-	          {title: 'Saint Louis Zoo', phone: '(314) 781-0900', location: {lat: 38.6385721, lng: -90.2938032}},
-	          {title: 'The Gateway Arch', phone: '(877) 982-1410', location: {lat: 38.624691, lng: -90.186965}},
-	          {title: 'Delmar Loop', phone: '(314) 727-8000', location: {lat: 38.6560226, lng: -90.3075077}},
-	          {title: 'Saint Louis Art Museum', phone: '(314) 721-0072', location: {lat: 38.6390952, lng: -90.2971418}},
-	          {title: 'Missouri History Museum', phone: '(314) 746-4599', location: {lat: 38.6452478, lng: -90.287927}},
-	          {title: 'Missouri Botanical Garden', phone: '(314) 577-5100', location: {lat: 38.6161054, lng: -90.260256}},
-	          {title: 'Ted Drewes Frozen Custard', phone: '(314) 481-2652', location: {lat: 38.589412, lng: -90.307809}}
-	        ];
-	
-	        var largeInfowindow = new google.maps.InfoWindow();
-	        var bounds = new google.maps.LatLngBounds();
-	
-	        // The following group uses the location array to create an array of markers on initialize.
-	        for (var i = 0; i < locations.length; i++) {
-	          // Get the position from the location array.
-	          var position = locations[i].location;
-	          var title = locations[i].title;
-	          var phone = locations[i].phone;
-	          // Create a marker per location, and put into markers array.
-	          var marker = new google.maps.Marker({
-	            map: map,
-	            position: position,
-	            title: title,
-	            phone: phone,
-	            animation: google.maps.Animation.DROP,
-	            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-	            // source:  https://sites.google.com/site/gmapsdevelopment/
-	            id: i
-	          });
-	          // Push the marker to our array of markers.
-	          markers.push(marker);
-	          // Create an onclick event to open an infowindow at each marker.
-	          marker.addListener('click', function() {
-	            populateInfoWindow(this, largeInfowindow);
-	          });
-	          
-	       	// Two event listeners - one for mouseover, one for mouseout,
-	          // to change the colors back and forth.
-	          marker.addListener('mouseover', function() {
-	            this.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-	            //source:  https://sites.google.com/site/gmapsdevelopment/
-	          });
-	          marker.addListener('mouseout', function() {
-	            this.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-	            // source:  https://sites.google.com/site/gmapsdevelopment/
-	          });
-	          
-	          bounds.extend(markers[i].position);
-	        }
-	        // Extend the boundaries of the map for each marker
-	        map.fitBounds(bounds);
-	      }
-	
-	      // This function populates the infowindow when the marker is clicked. We'll only allow
-	      // one infowindow which will open at the marker that is clicked, and populate based
-	      // on that markers position.
-	      function populateInfoWindow(marker, infowindow) {
-	        // Check to make sure the infowindow is not already opened on this marker.
-	        if (infowindow.marker != marker) {
-	          infowindow.marker = marker;
-	          
-	          var $wikiElem = $('#wikipedia-links');
-	          $wikiElem.text("");
-	          inputStr = marker.title;
-	          
-	       // load wikipedia data
-			    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+inputStr+'&format=json&callback=wikiCallback';
-			    var wikiRequestTimeout = setTimeout(function(){
-			        $wikiElem.text("failed to get wikipedia resources");
-			    }, 8000);
-		
-			    $.ajax({
-			        url: wikiUrl,
-			        dataType: "jsonp",
-			        jsonp: "callback",
-			        success: function( response ) {
-			        	
-			        	/* Obtain main wikipedia link  from ajax response 
-			        	and create a link to display in info window */
-			        	var linkDiv = document.getElementById("wikipedia-links")
-			        	var aTag = document.createElement('a');
-			        	aTag.setAttribute('href', response[3][0]);
-			        	aTag.innerHTML = response[3][0];
-			        	linkDiv.appendChild(aTag);
-			        	
-			        	// Clear timeout for request
-			        	clearTimeout(wikiRequestTimeout);
-			        }
-			    })
-	          
-	          infowindow.setContent(
-	        		  '<div><h5>' + marker.title + '<h5></div>' + 
-	        		  '<div>' + marker.phone + '</div>' +
-	        		  '<div><h6>Wiki Link<h6></div>' +
-	        		  '<div id="wikipedia-links"></div>'
-	        		  
-	        		  );
-	          infowindow.open(map, marker);
-	          // Make sure the marker property is cleared if the infowindow is closed.
-	          infowindow.addListener('closeclick',function(){
-	            infowindow.setMarker = null;
-	          });
-	        }
-	      }
-	    </script>
+		  	<div id="map">
+		  	</div>
+		</div>
+	</div>
 	    
-	    <script type="text/javascript"src="js/lib/jquery.min.js"></script>
-  		<script type="text/javascript"src="js/lib/knockout-3.2.0.js"></script>
-    	<script type="text/javascript"src="js/app.js"></script>
+	    <script src="js/lib/jquery.min.js"></script>
+  		<script src="js/lib/knockout-3.2.0.js"></script>
+    	<script src="js/app.js"></script>
 	
 	    <script async defer
 	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD68YPsRiOfibODAVylQM4BaKVBdRDb1Po&v=3&callback=initMap">

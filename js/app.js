@@ -1,6 +1,8 @@
-var markers = [];
+// Global variables
 var map;
+var markers = [];
 
+// Model (Data)
 var locations = [ 
 	{
 		title: 'Saint Louis Zoo',
@@ -37,16 +39,17 @@ var locations = [
 		phone: '(314) 481-2652',
 		location: {lat: 38.589412, lng: -90.307809}
 	} ]
-
+	// mapViewModel
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {
 	        center: {lat: 38.63268284, lng: -90.1869568},
 	        zoom: 13
 	      });
 		
-		var largeInfowindow = new google.maps.InfoWindow();
+		var largeInfoWindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
         
+        // Create map markers from array of locations
 		for (var i = 0; i < locations.length; i++) {
 		    // Get the position from the location array.
 		    var position = locations[i].location;
@@ -67,35 +70,6 @@ var locations = [
 		    locations[i].marker = marker;
 		    
 		    bounds.extend(markers[i].position);
-		    
-		    var ViewModel = function() {
-	    	  var self = this;
-
-	    	  self.listLoc = ko.observableArray();
-
-	    	  locations.forEach(function(locItem) {
-	    	    self.listLoc.push(locItem)
-	    	  });
-
-	    	  self.filter = ko.observable('');
-
-	    	  self.filteredItems = ko.computed(function() {
-	    	    var filter = self.filter().toLowerCase();
-	    	    if (!filter) {
-	    	      ko.utils.arrayForEach(self.listLoc(), function (item) {
-	    	        item.marker.setVisible(true);
-	    	      });
-	    	      return self.listLoc();
-	    	    } else {
-	    	      return ko.utils.arrayFilter(self.listLoc(), function(item) {
-	    	        // set all markers visible (false)
-	    	        var result = (item.title.toLowerCase().search(filter) >= 0)
-	    	        item.marker.setVisible(result);
-	    	        return result;
-	    	      });
-	    	    };
-	    	  });
-	    	}
 		    	
 		    /*Two event listeners - one for mouseover, one for mouseout,
 	      	to change the colors back and forth.*/
@@ -114,13 +88,16 @@ var locations = [
 	        	setTimeout(1000);
 	        	this.setMap(map);
 	        	this.setAnimation(google.maps.Animation.DROP);
-	        	populateInfoWindow(this, largeInfowindow);
+	        	populateInfoWindow(this, largeInfoWindow);;
             });
           
 	        map.fitBounds(bounds);
 			};
 ko.applyBindings(new ViewModel())
 }; // End initMap function
+
+
+
 
 // Function toggles list box
 $('.toggle-button').bind('click',function() {
@@ -129,22 +106,13 @@ $('.toggle-button').bind('click',function() {
 	    $('.content-nav-bar').toggleClass('active');
 	});
 
-//Function animates marker  and populates infoWindow from list item
-clickFromList = function(selection) {
-	var largeInfowindow = new google.maps.InfoWindow();
-	selection.marker.setMap(null);
-	setTimeout(1000);
-	selection.marker.setMap(map);
-	selection.marker.setAnimation(google.maps.Animation.DROP);
-	populateInfoWindow(selection.marker, largeInfowindow);
-	  }
-  
+
 /*This function populates the infowindow when the marker is clicked. We'll only allow
 one infowindow which will open at the marker that is clicked, and populate based
 on that markers position.*/
-function populateInfoWindow(marker, infowindow) {
+function populateInfoWindow(marker, infowindow)  {
     // Check to make sure the infowindow is not already opened on this marker.
-	  if (infowindow.marker != marker) {
+	  if (infowindow.marker != marker ) {
       infowindow.marker = marker;
       
       var $wikiElem = $('#wikipedia-links');
@@ -182,7 +150,7 @@ function populateInfoWindow(marker, infowindow) {
 	        			  '<div>An Error Occurred!</div>'
 	        			  );
 	        }
-	    }) //end ajax
+	    }) // End ajax
 	    
 	    infowindow.setContent(
 		  '<div><h5>' + marker.title + '<h5></div>' + 
@@ -199,3 +167,32 @@ function populateInfoWindow(marker, infowindow) {
       });
     } // End if infoWindow.marker
   } // End populateInfoWindow function
+
+var ViewModel = function() {
+	  var self = this;
+
+	  self.listLoc = ko.observableArray();
+
+	  locations.forEach(function(locItem) {
+	    self.listLoc.push(locItem)
+	  });
+
+	  self.filter = ko.observable('');
+
+	  self.filteredItems = ko.computed(function() {
+	    var filter = self.filter().toLowerCase();
+	    if (!filter) {
+	      ko.utils.arrayForEach(self.listLoc(), function (item) {
+	        item.marker.setVisible(true);
+	      });
+	      return self.listLoc();
+	    } else {
+	      return ko.utils.arrayFilter(self.listLoc(), function(item) {
+	        // set all markers visible (false)
+	        var result = (item.title.toLowerCase().search(filter) >= 0)
+	        item.marker.setVisible(result);
+	        return result;
+	      });
+	    };
+	  });
+	}

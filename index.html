@@ -25,7 +25,7 @@
 					   placeholder="Filter List to ..." 
 					   data-bind="textInput: filter" />
 		    	<ul id="menu" data-bind="foreach: filteredItems">
-		      		<li data-bind="text: title, click: clickFromList"></li>
+		      		<li data-bind="text: title, click: populateInfoWindow"></li>
 		    	</ul>
 		  	</div> <!-- end list-box div -->
 		  	<div class="page-content">

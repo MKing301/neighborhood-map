@@ -25,7 +25,7 @@
 					   placeholder="Filter List to ..." 
 					   data-bind="textInput: filter" />
 		    	<ul id="menu" data-bind="foreach: filteredItems">
-		      		<li data-bind="text: title, click: populateInfoWindow"></li>
+		      		<li data-bind="text: title, click: openFromList"></li>
 		    	</ul>
 		  	</div> <!-- end list-box div -->
 		  	<div class="page-content">
@@ -44,8 +44,8 @@
 	    		</div>  <!-- end content-nav-bar div -->
 		  	<div id="map">
 		  	</div>
-		</div>
-	</div>
+		</div>  <!-- end page content div -->
+	</div>  <!-- end container div -->
 	    
 	    <script src="js/lib/jquery.min.js"></script>
   		<script src="js/lib/knockout-3.2.0.js"></script>

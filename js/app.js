@@ -105,13 +105,11 @@ var locations = [
 ko.applyBindings(new ViewModel())
 }; // End initMap function
 
-// Function toggles list box
-toggleListBox = function() {
-	    $('.list-box').toggle();
-	    $('#map').toggleClass('active');
-	    $('.content-nav-bar').toggleClass('active');
-	};
-
+//handle map error
+function loadingError() {
+    alert('An error occurred with Google Maps!');
+};
+    
 // Function animates marker and populate infowindow from list item
 openFromList = function(selection) {
 	selection.marker.setMap(null);
@@ -185,6 +183,14 @@ function populateInfoWindow(marker, infowindow)  {
 // Filter list functionality
 var ViewModel = function() {
 	  var self = this;
+	  
+	  // Set initial value of list
+	  self.isActive = ko.observable(false);
+	  
+	  // Function toggles lists box
+	  self.toggleListBox = function(){
+	      self.isActive(!self.isActive()); //to switch between true and false
+	    };
 
 	  // Set list of places as observable array
 	  self.listLoc = ko.observableArray();

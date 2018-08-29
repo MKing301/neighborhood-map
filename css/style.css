@@ -13,7 +13,8 @@ body {
 	position: relative;
 }
 
-.content-nav-bar {
+/* nav bar when list box expanded */
+.content-nav-bar.active {
 	background: #E0D9D8;
 	top: 0px;
 	left: 30%;
@@ -22,7 +23,8 @@ body {
     right: 0px;
 }
 
-.content-nav-bar.active {
+/* nav bar when list box not visible */
+.content-nav-bar {
 	background: #E0D9D8;
 	top: 0px;
 	left: 0%;
@@ -31,7 +33,8 @@ body {
     right: 0px;
 }
 
-#map {
+/* map window when list box expanded */
+#map.active {
         bottom: 0px;
         height: 90%;
         left: 30%;
@@ -39,7 +42,8 @@ body {
         right: 0px;
       }
 
-#map.active {
+/* map window when list box is not visible */
+#map {
 		bottom: 0px;
         height: 90%;
         left: 0%;
@@ -47,6 +51,7 @@ body {
         right: 0px;
       }
 
+/* list box styling */
 .list-box {
         background: #E0D9D8;
         border: 1px solid #999;
@@ -58,15 +63,17 @@ body {
         width: 30%;
         text-align: center;
       }
-      
+
+/* filter input field styling */
 #filterInput {
 /* 	image source:  https://www.freeiconspng.com/img/9982 */
 	background-image: url('search-icon-png-18.png'); /* Add a search icon to input */
     background-position: 10px 12px; /* Position the search icon */
     background-repeat: no-repeat; /* Do not repeat the icon image */
-    padding: 8px 12px 8px 40px; /* Add some padding */
+    padding: 8px 12px 8px 40px;
 }
 
+/* places list styling */
 li {
 	list-style-type: square;
 	color: #0C0BF1;

@@ -100,11 +100,11 @@ ko.applyBindings(new ViewModel())
 
 
 // Function toggles list box
-$('.toggle-button').bind('click',function() {
+toggleListBox = function() {
 	    $('.list-box').toggle();
 	    $('#map').toggleClass('active');
 	    $('.content-nav-bar').toggleClass('active');
-	});
+	};
 
 
 /*This function populates the infowindow when the marker is clicked. We'll only allow

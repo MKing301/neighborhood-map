@@ -1,9 +1,9 @@
 # neighborhood-map
-This application will display 7 popular locations in St. Louis, MO on a Google Map web page.  All location markers are visible by default, and a side panel which displays the markers in a list.  There is a search box at the top of the list to filter the available locations.  The list and the markers will both be filtered when text is typed in the search field..
+This application will display 7 popular locations in St. Louis, MO on a Google Map web page.  All location markers are visible by default, and a side panel which displays the markers in a list.  There is a search box at the top of the list to filter the available locations.  The list and the markers will both be filtered when text is typed in the search field.
 
-You can click on a marker on the map or the list item to view an info window that contains the name of the location, the phone number and a link to the main wikipedia page for the selected location.
+You can click on a marker on the map or the list item to view an info window that contains the name of the location, the phone number and a link to the main wikipedia page for the selected location.  The application only allows one infowindow to be open at a time.
 
-The application only allows one infowindow to be open at a time.
+This application renders in a responsive manner.  The "hamburger" icon allows the user to toggle the list box from expanded to collapsed and vice versa.
 
 ## Code
 HTML - index.html file contains what is visible to the user and the data binding.

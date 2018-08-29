@@ -14,7 +14,7 @@ body {
 }
 
 /* nav bar when list box expanded */
-.content-nav-bar.active {
+.content-nav-bar {
 	background: #E0D9D8;
 	top: 0px;
 	left: 30%;
@@ -24,7 +24,7 @@ body {
 }
 
 /* nav bar when list box not visible */
-.content-nav-bar {
+.content-nav-bar.active {
 	background: #E0D9D8;
 	top: 0px;
 	left: 0%;
@@ -34,7 +34,7 @@ body {
 }
 
 /* map window when list box expanded */
-#map.active {
+#map {
         bottom: 0px;
         height: 90%;
         left: 30%;
@@ -43,7 +43,7 @@ body {
       }
 
 /* map window when list box is not visible */
-#map {
+#map.active {
 		bottom: 0px;
         height: 90%;
         left: 0%;

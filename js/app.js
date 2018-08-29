@@ -1,6 +1,7 @@
 // Global variables
 var map;
 var markers = [];
+var infowindows = [];
 
 // Model (Data)
 var locations = [ 
@@ -90,14 +91,16 @@ var locations = [
 	        	this.setAnimation(google.maps.Animation.DROP);
 	        	populateInfoWindow(this, largeInfoWindow);;
             });
-          
+	        
+	        // Create info window for each location and store in infowindows array
+	        locations[i].largeInfoWindow = largeInfoWindow;
+	        infowindows.push(largeInfoWindow);
+	        
+	        // Fit locations within map view
 	        map.fitBounds(bounds);
 			};
 ko.applyBindings(new ViewModel())
 }; // End initMap function
-
-
-
 
 // Function toggles list box
 toggleListBox = function() {
@@ -106,7 +109,15 @@ toggleListBox = function() {
 	    $('.content-nav-bar').toggleClass('active');
 	};
 
-
+// Function animates marker and populate infowindow from list item
+openFromList = function(selection) {
+	selection.marker.setMap(null);
+	setTimeout(1000);
+	selection.marker.setMap(map);
+	selection.marker.setAnimation(google.maps.Animation.DROP);
+	populateInfoWindow(selection.marker, selection.largeInfoWindow);
+	  };
+	
 /*This function populates the infowindow when the marker is clicked. We'll only allow
 one infowindow which will open at the marker that is clicked, and populate based
 on that markers position.*/

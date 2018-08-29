@@ -66,8 +66,11 @@ var locations = [
 		      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
 		      id: i
 		    });
+		    
+		    // Add marker to markers array
 		    markers.push(marker);
 		    
+		    // Add marker to location
 		    locations[i].marker = marker;
 		    
 		    bounds.extend(markers[i].position);
@@ -179,17 +182,22 @@ function populateInfoWindow(marker, infowindow)  {
     } // End if infoWindow.marker
   } // End populateInfoWindow function
 
+// Filter list functionality
 var ViewModel = function() {
 	  var self = this;
 
+	  // Set list of places as observable array
 	  self.listLoc = ko.observableArray();
 
+	  /*Iterate over each location and add it to 
+	  the list item array*/
 	  locations.forEach(function(locItem) {
 	    self.listLoc.push(locItem)
 	  });
 
 	  self.filter = ko.observable('');
 
+	  // Filter list items
 	  self.filteredItems = ko.computed(function() {
 	    var filter = self.filter().toLowerCase();
 	    if (!filter) {
@@ -199,7 +207,6 @@ var ViewModel = function() {
 	      return self.listLoc();
 	    } else {
 	      return ko.utils.arrayFilter(self.listLoc(), function(item) {
-	        // set all markers visible (false)
 	        var result = (item.title.toLowerCase().search(filter) >= 0)
 	        item.marker.setVisible(result);
 	        return result;
